@@ -35,18 +35,6 @@ object passingFunctions extends App {
     val byNegativeNumberOfS = List("haskell", "scala", "java").sortBy(negativeNumberOfS)
     assert(byNegativeNumberOfS == List("haskell", "scala", "java"))
   }
-  // {
-
-  //   def negative(i: Int): Int = -i
-  //   val ascending = List(5, 1, 2, 4, 3).sortBy(negative)
-  //   println(ascending)
-  //   assert(ascending == List(5, 4, 3, 2, 1))
-
-  //   def negativeNumberOfS(s: String): Int = -numberOfS(s)
-  //   val byNegativeNumberOfS = List("ada", "rust").sortBy(negativeNumberOfS)
-  //   println(byNegativeNumberOfS)
-  //   assert(byNegativeNumberOfS == List("rust", "ada"))
-  // }
 
   // Practicing map
   {
@@ -61,5 +49,23 @@ object passingFunctions extends App {
     def double(i: Int): Int = i * 2
     val doubles = List(5, 1, 2, 4, 0).map(double)
     assert(doubles == List(10, 2, 4, 8, 0))
+  }
+
+  {
+    def len(s: String): Int = s.length
+    val longWords = List("scala", "java", "haskell").filter(word => len(word) < 5)
+    assert(longWords == List("java"))
+
+    def numberOfS(s: String): Int = s.length - s.replaceAll("s", "").length
+    val withLotsS = List("scala", "java", "haskell").filter(word => numberOfS(word) > 2)
+    assert(withLotsS == List.empty)
+
+    def odd(i: Int): Boolean = i % 2 == 1
+    val odds = List(5, 1, 2, 4, 0).filter(odd)
+    assert(odds == List(5, 1))
+
+    def largerThan4(i: Int): Boolean = i > 4
+    val large = List(5, 1, 2, 4, 0).filter(largerThan4)
+    assert(large == List(5))
   }
 }
