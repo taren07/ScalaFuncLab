@@ -52,5 +52,33 @@ object wordScoring extends App {
             val wordRanking = rankedWords(w => score(w) + bonus(w), words)
             assert(wordRanking == List("java", "scala", "haskell", "golang", "rust"))
         }
+
+        def penalty(word: String): Int = if (word.contains("s")) 7 else 0
+
+        {
+            val wordRanking = rankedWords(w => score(w) + bonus(w) - penalty(w), words)
+            assert(wordRanking == List("java", "scala", "haskell", "golang", "rust"))
+        }
+
+        def wordScores(wordScore: String => Int, words: List[String]): List[String] = {
+            words.map(wordScore)
+        }
+
+        assert(wordScores(score, List("rust", "java")) == List(4, 2))
+
+        {
+            val scores = wordScores(w => score(w) + bonus(w) - penalty(w), words)
+            assert(scores == List(1, 2, 3, 4, 4))
+        }
+
+        {
+            def highScoringWords(wordScore: String => Int, words: List[String]): List[String] = {
+                words.filter(word => wordScore(word) > 1)
+            }
+
+            assert(highScoringWords(score, List("rust", "java")) == List("java"))
+        }
+
+        // Next line: 107
     }
 }
