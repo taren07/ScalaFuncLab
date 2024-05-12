@@ -14,9 +14,31 @@ object bookFriendRecommendations extends App {
     val friends = List("Alice", "Bob", "Charlie")
     val friendsBooks = friends.map(recommendedBooks)
 
-    assert(friendsBooks == List(
-        List(Book("FP in Scala", List("Chiusano", "Bjarnason")), Book("Get Programming with Scala", List("Sfregola"))),
-        List(Book("Harry Potter", List("Rowling")), Book("The Lord of the Rings", List("Tolkien"))),
-        List.empty
+    assert(friendsBooks == 
+        List(
+            List(Book("FP in Scala", List("Chiusano", "Bjarnason")), Book("Get Programming with Scala", List("Sfregola"))),
+            List(Book("Harry Potter", List("Rowling")), Book("The Lord of the Rings", List("Tolkien"))),
+            List.empty
+        )
+    )
+
+    val flattenResult = friendsBooks.flatten //先頭Listを削除
+    println(flattenResult)
+
+    val authors = recommendations.flatMap(_.authors)
+    assert(authors == List("Chiusano", "Bjarnason", "Sfregola", "Rowling", "Tolkien"))
+
+    val recommendations = friends.flatMap(recommendedBooks)
+    assert(recommendations == List(
+        Book("FP in Scala", List("Chiusano", "Bjarnason")),
+        Book("Get Programming with Scala", List("Sfregola")),
+        Book("Harry Potter", List("Rowling")),
+        Book("The Lord of the Rings", List("Tolkien"))
     ))
+    assert(flattenResult == recommendations)
+
+    val recommendedAuthors = friends
+        .flatMap(recommendedBooks)
+        .flatMap(_.authors)
+    assert(recommendedAuthors == List("Chiusano", "Bjarnason", "Sfregola", "Rowling", "Tolkien"))
 }
