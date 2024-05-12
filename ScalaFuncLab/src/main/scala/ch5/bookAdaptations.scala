@@ -42,4 +42,20 @@ object bookAdaptations extends App {
 
     val a3 = books.flatMap(_.authors)
     assert(a2 == a3)
+
+    val author = List("Chiusano", "Bjarnason", "Tolkien")
+    val movieLists = author.map(bookAdaptations)
+    assert(movieLists == List(
+        List.empty,
+        List.empty,
+        List(Movie("An Unexpected Journey"), Movie("The Desolation of Smaug"))
+    ))
+
+    val b1 = movieLists.flatten
+    val movies = books.flatMap(_.authors).flatMap(bookAdaptations)
+
+    assert(movies == List(Movie("An Unexpected Journey"), Movie("The Desolation of Smaug")))
+    assert(b1 == movies)
+
+    // NEXT LINE 66
 }            
