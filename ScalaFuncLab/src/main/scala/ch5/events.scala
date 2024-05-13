@@ -37,6 +37,21 @@ object events extends App {
         assert(parse("Apollo Program", 1961, 1972) == Some(Event("Apollo Program", 1961, 1972)))
         assert(parse("", 1939, 1945) == None)
         assert(parse("Event", 1949, 1945) == None)
+
+        def validateLength(start: Int, end: Int, minLength: Int): Option[Int] =
+        if (end - start >= minLength) Some(end - start) else None
+
+        def parseLongEvent(name: String, start: Int, end: Int, minLength: Int): Option[Event] = for {
+            validName   <- validateName(name)
+            validEnd    <- validateEnd(end)
+            validStart  <- validateStart(start, end)
+            validLength <- validateLength(start, end, minLength)
+        } yield Event(validName, validStart, validEnd)
+
+        assert(parseLongEvent("Apollo Program", 1961, 1972, 10) == Some(Event("Apollo Program", 1961, 1972)))
+        assert(parseLongEvent("World War II", 1939, 1945, 10) == None)
+        assert(parseLongEvent("", 1939, 1945, 10) == None)
+        assert(parseLongEvent("Apollo Program", 1972, 1961, 10) == None)
     }
 
 
