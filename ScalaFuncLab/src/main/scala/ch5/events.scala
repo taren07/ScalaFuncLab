@@ -53,7 +53,4 @@ object events extends App {
         assert(parseLongEvent("", 1939, 1945, 10) == None)
         assert(parseLongEvent("Apollo Program", 1972, 1961, 10) == None)
     }
-
-
-
 }
